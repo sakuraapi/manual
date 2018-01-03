@@ -111,12 +111,32 @@ The node server from the ___/dist/___ directory starts and listens on the specif
 Additional reading found at (https://nodemon.io/)
 
 #### /scripts/test.sh
-This file is run when the command `npm run test` is executed.  
+This file is run when the command `npm run test` is executed.  A container is created with a test environment running. 
+That means the build directory for this environment is based on the ___tsconfig.spec.json___ file instead of the ___tsconfig.json___.  
+The Jasmine tests are run.  When the tests are completed, the container is shut down.  
 
 #### /scripts/test:db.sh
 This file is run when the command `npm run test:db` is executed.  
-
+This is the same as the ___test.sh___ script except for two notable differences.  First, the container is not closed at the end of the Jasmine run.
+Second, the build is based on the ___tsconfig.json___ file instead of the ___tsconfig.spec.json___  
 #### /src
+This directory will be where the bulk of the source code for your new Sakura API project will live.  A more in depth 
+description of where pieces go can be found below.  
+
+A few notes about what the CLI scaffolds for you.  
+
+#### /src/api/config.api.ts
+This is a default __api__ created to show status.  If you run `npm start`, you can navigate to http://localhost:8001/api and see 
+```
+{
+server: "example-api",
+serverUp: true
+}
+```
+where ___example-api___ is the name of the project you are scaffolding.  
+
+
+ 
 #### /spec
 
  
