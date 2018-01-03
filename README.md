@@ -89,8 +89,33 @@ This file is the YML configuration file used by docker compose to build a test c
 As a minimum, this build puts a blank mongoDB instance for your API to use.  We use a blank one in our test environment
  when developing so that old data does not create artifacts that will corrupt the test.  
  
-This file is used by the script found in `scripts/docker:local-compose-up.sh`
-#### /scripts
+This file is used by the script found in ___scripts/docker:local-compose-up.sh___. 
+
+This file is also used to shut down a container when a `docker-compose down` command is executed.  More commonly this is run from the 
+command `npm run docker:local-compose-down`
+#### /scripts/build.sh
+This file is run when the command `npm run build` is executed.  At its core, it compiles the typescript code into the 
+`/dist/` folder ready to be packaged into a docker container.  
+
+#### /scripts/docker:local-compose-up.sh
+This file is run when the command `npm run docker:local-compose-up`.  Defunct containers are pruned from the system and
+a new container based on the ___local-test.yml___ file is run.  This will be active until `npm run docker:local-compose-down` is run.  
+
+#### /scripts/install.sh
+This is a placeholder for later.
+
+#### /scripts/nodemon.sh and /scripts/start.sh
+These files are run when the command `npm start` is executed.  A container is created with a new ___/dist/___ directory.  
+The node server from the ___/dist/___ directory starts and listens on the specified port (defaults to 8001).  
+
+Additional reading found at (https://nodemon.io/)
+
+#### /scripts/test.sh
+This file is run when the command `npm run test` is executed.  
+
+#### /scripts/test:db.sh
+This file is run when the command `npm run test:db` is executed.  
+
 #### /src
 #### /spec
 
