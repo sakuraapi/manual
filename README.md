@@ -73,7 +73,25 @@ _Your name, handle, alias, pseudonym, etc._
     [auth-native-authority](https://github.com/sakuraapi/auth-native-authority) and   
     [auth-audience](https://github.com/sakuraapi/auth-audience_)
     
-## Walk through the directories created by the CLI
-### /docker
+## Walk through the output of the CLI
+### files created by the CLI
+#### package.json
+Every app needs a package.json.  The CLI pre-populates this with the dependencies Sakura API is expecting.   
+#### tslint.json, tsconfig.json, tsconfig.spec.json
+These three files are _typescript_ configuration files.  
+They will set the standard lint and compiler configurations for your project.  
+The CLI produces a recommended set of settings, but you are welcome to make changes.  
+For more about these files, read 
+(https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+(https://palantir.github.io/tslint/usage/tslint-json/)
+#### /docker/local-test.yml
+This file is the YML configuration file used by docker compose to build a test container for your project.  
+As a minimum, this build puts a blank mongoDB instance for your API to use.  We use a blank one in our test environment
+ when developing so that old data does not create artifacts that will corrupt the test.  
+ 
+This file is used by the script found in `scripts/docker:local-compose-up.sh`
+#### /scripts
+#### /src
+#### /spec
 
-
+ 
