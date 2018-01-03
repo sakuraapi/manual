@@ -125,7 +125,7 @@ description of where pieces go can be found below.
 
 A few notes about what the CLI scaffolds for you.  
 
-#### /src/api/config.api.ts
+##### /src/api/config.api.ts
 This is a default __api__ created to show status.  If you run `npm start`, you can navigate to http://localhost:8001/api and see 
 ```
 {
@@ -135,8 +135,10 @@ serverUp: true
 ```
 where ___example-api___ is the name of the project you are scaffolding.  
 
+A close examination of this file will show that, all request methods, __PUT__, __POST__, __GET__, __DELETE__, etc, are handled with the same handler. 
+Different behavior, based on the method, will require their own handlers.  
 
- 
+##### /src/api/
 #### /spec
 
  
