@@ -27,7 +27,7 @@ familiarize yourself with the cli by simply typing `sapi`. This will result in a
 ![](.Tutorial-1_images/8732af32.png)
 If you want help with a specific command, you can get that too. Try sapi init --help.
 
-Initializing a new project
+### Initialize a new project
 Ok, let’s get started.
 
 First, navigate to a directory where you want to experiment. Next, run sapi init test, where test could be whatever you 
@@ -68,8 +68,40 @@ npm test
 
 Now, type `npm start`. You now have a running SakuraApi server running on localhost:8001. Press <control-c> to stop the server.
 
+### See your running API server in Postman
 You can see the server running by opening Postman and doing a GET request to localhost:8001/api.  
 
 ![](.Tutorial-1_images/1c674a61.png)
 
+You should see the output 
 
+```json
+{
+    "server": "test",
+    "serverUp": true
+}
+```
+
+Where did this output come from?  Let's open the code and look at __src/api/config.api.ts__
+
+This file defines the routes handled by the SakuraApi server.   The ___ConfigApi___ class is a Routable Class.  
+We can define different methods that the API will handle.  We also define the method or function that will handle each type of request. 
+
+Let's look at this example of a GET request we sent to the server through Postman.
+
+```typescript 
+@Route({
+       method: 'get',
+       path: ''
+     })
+     async getHandler(req: Request, res: Response, next: NextFunction) {
+       await this.configHandler(req, res);
+       next();
+     }     
+```
+
+`path` tells the server to use this handler when the baseurl has nothing else on it.  It calls getHandler, which wraps around 
+the configHandler.  NextFunction is an Interface defined in Express as a way of handling 
+middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
+
+### Make a new Route
