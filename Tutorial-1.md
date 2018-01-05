@@ -2,8 +2,7 @@
 # Lesson 1 - My first API
 
 In this lesson we will build our first API using SakuraApi.  
-We're going to start small and build up.  We will end this session with an API that has one number.
-You can ask for the number, and you can increment the number.    
+We're going to start small and build up.  We will end this session with a new API route that outputs a message.    
 
 ## Prerequisites 
 Let's assume you have a development capable computer.  Let's assume you are breathing.   
@@ -105,3 +104,81 @@ the configHandler.  NextFunction is an Interface defined in Express as a way of 
 middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
 
 ### Make a new Route
+Create a new file in the ___config/api/___ directory called jar.api.ts
+
+Copy in this snippet of code 
+```typescript
+import {IRoutableLocals, Routable, Route, SakuraApiRoutable} from '@sakuraapi/api';
+import {NextFunction, Request, Response} from 'express';
+import {OK, SERVER_ERROR} from '../lib/http-status';
+import {LogService} from '../services/log-service';
+
+@Routable({
+  baseUrl: '/jar'
+})
+export class JarApi extends SakuraApiRoutable { 
+
+  constructor(private log: LogService) {
+    super();
+  }
+
+  @Route({
+    method: 'get',
+    path: ''
+  })
+  async getHandler(req: Request, res: Response, next: NextFunction) {
+    await this.defaultHandler(req, res);
+    next();
+  }
+
+  async defaultHandler(req: Request, res: Response): Promise<void> {
+    const locals = res.locals as IRoutableLocals;
+
+    try {
+      locals
+        .send(OK, {
+          coins: 'coin-jar'
+        });
+    } catch (err) {
+      locals
+        .send(SERVER_ERROR, {
+          error: 'SERVER_ERROR'
+        });
+      this.log.error(err);
+    }
+  }
+}
+
+```
+
+This has one Route, a get request at __/jar__.  Let's test it out with Postman.  
+If you haven't stopped your running server with a ctrl-C, you can go to Postman and visit __http://localhost:8001/api/jar__
+
+and you will get a 404 Not found error.  Oh No!  What went wrong?  We forgot to register the new api in the Routes.  
+For those familiar with Angular patterns, this is similar to declaring Components in the core App Module.  
+
+Let's open the file in __/src/sakura-api.ts__
+
+__JarApi__ needs to be added to the routables array of the SakuraApi object.  It should now look like 
+```typescript
+routables: [
+        ConfigApi,
+        JarApi
+      ]
+```
+
+This won't compile until we import JarApi above.  So add to the import statements
+
+```typescript
+import {JarApi} from './api/jar.api';
+```
+
+Now go back to Postman and test __http://localhost:8001/api/jar__.  You will now get 
+
+```
+{
+  "coins": "coin-jar"
+}
+```
+
+In the next Lesson we'll do something with this.  
