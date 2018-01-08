@@ -101,10 +101,9 @@ import {LogService} from '../services/log-service';
 @Routable({
   baseUrl: '/jar'
 })
-export class JarApi extends SakuraApiRoutable { 
+export class JarApi { 
 
   constructor(private log: LogService) {
-    super();
   }
 
   @Route({
@@ -122,7 +121,7 @@ export class JarApi extends SakuraApiRoutable {
     try {
       locals
         .send(OK, {
-          coins: 'coin-jar'
+          coins: 'hello, world'
         });
     } catch (err) {
       locals
@@ -158,13 +157,14 @@ Now go back to Postman and test __http://localhost:8001/api/jar__.  You will now
 
 ```
 {
-  "coins": "coin-jar"
+  "coins": "hello world"
 }
 ```
 
 ### What happened?
-We created a JarApi class that extends SakuraApiRoutable class.  Let's take a look at [the documentation](https://sakuraapi.github.io/api/) for [this class](https://sakuraapi.github.io/api/classes/_core__routable_sakura_api_routable_.sakuraapiroutable.html).
-  
 
+First, look at the `@Routable` decorator.  This is where we declare this class that is going to be defined as a Routable class.  That means we need the Node/Express Server to know that it needs to listen for requests at this URL?  What URL to listen for is declared in the baseurl variable.  
+
+The JarApi has the `@Route` decorator.  The work of the decorator is to add a lot of meta-data and scaffold some methods into the compiled code that will handle the requests, and the responses.  The `@Route` decorator can be used multiple times to define different routes and different methods.  The `src/api/config.api.ts` file is a good example of that
 
 In the next Lesson we'll do something with this.  
