@@ -1,0 +1,1 @@
+{"version":3,"file":"error-to-json-string.js","sourceRoot":"","sources":["../../../src/lib/error-to-json-string.ts"],"names":[],"mappings":";;AAAA,2BAAkC,GAAU;IAC1C,MAAM,CAAC,IAAI,CAAC,SAAS,CAAC,GAAG,EAAE,CAAC,SAAS,EAAE,WAAW,EAAE,MAAM,EAAE,MAAM,EAAE,OAAO,CAAC,CAAC,CAAC;AAChF,CAAC;AAFD,8CAEC"}

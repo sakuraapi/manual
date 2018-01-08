@@ -1,0 +1,11 @@
+export declare const OK = 200;
+export declare const NO_CONTENT = 204;
+export declare const BAD_REQUEST = 400;
+export declare const STRIPE_USER_MISSING_FROM_TOKEN = 402;
+export declare const FORBIDDEN = 403;
+export declare const NOT_FOUND = 404;
+export declare const METHOD_NOT_ALLOWED = 405;
+export declare const DUPLICATE_RESOURCE = 409;
+export declare const INVALID_BODY_PARAMETER = 422;
+export declare const UNAVAILABLE_FOR_LEGAL_REASONS = 451;
+export declare const SERVER_ERROR = 500;
