@@ -19,3 +19,5 @@ dist
 *.map
 testResults
 tmp
+coin-jar/node_modules
+coin-jar/dist

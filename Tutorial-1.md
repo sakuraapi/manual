@@ -1,8 +1,7 @@
 # SakuraApi
 # Lesson 1 - My first API
 
-In this lesson we will build our first API using SakuraApi.  
-We're going to start small and build up.  We will end this session with a new API route that outputs a message.    
+In this lesson we will build our first API using SakuraApi.  We're going to start small and build up.  We will end this session with a new API route that outputs a message.    
 
 ## Prerequisites 
 Let's assume you have a development capable computer.  Let's assume you are breathing.   
@@ -21,17 +20,14 @@ npm install --global @sakuraapi/cli@latest
 It can be simplified as 
 `npm i -g @sakuraapi/cli`.  
 
-Setting up a SakuraApi project takes a lot of work – __sapi__ makes it easy. Before we start a new project, 
-familiarize yourself with the cli by simply typing `sapi`. This will result in a help screen.
+Setting up a SakuraApi project takes a lot of work – __sapi__ makes it easy. Before we start a new project, familiarize yourself with the cli by simply typing `sapi`. This will result in a help screen.
 ![](.Tutorial-1_images/8732af32.png)
 If you want help with a specific command, you can get that too. Try sapi init --help.
 
 ### Initialize a new project
 Ok, let’s get started.
 
-First, navigate to a directory where you want to experiment. Next, run sapi init test, where test could be whatever you 
-want the output directory to be named. Note, if you just run sapi init it will attempt to setup a SakuraApi project in 
-the current directory.
+First, navigate to a directory where you want to experiment. Next, run sapi init test, where test could be whatever you want the output directory to be named. Note, if you just run sapi init it will attempt to setup a SakuraApi project in the current directory.
 
 I keep all my work in a dev directory in my home folder, so my initial setup would look something like this:
 
@@ -43,15 +39,7 @@ cd test
 
 __sapi__ will ask you a series of questions to help you setup your project.
 
-The first non-obvious question it asks you is what role you want your SakuraApi server to fulfill. 
-There’s three options: none, issuer, audience. If you press <enter>it will list the options for you. 
-If you select none, sapi will create a barebone installation with no authentication. 
-If you select issuer sapi will create a Json Web Token (JWT) issuer. 
-An issuer is responsible for authenticating users and generating JWTs which the client application can then pass back 
-to the issuer or to audience servers to prove the user is authenticated. If you select audience, sapi will setup your 
-project as an audience server  which is able to understand JWTs issued by the issuer, but the audience server has no 
-authentication responsibilities. It relies on the issuer for its user authentication. Remember, SakuraApi is built from
- the ground up to support microservices, hence the different roles.
+The first non-obvious question it asks you is what role you want your SakuraApi server to fulfill.  There’s three options: none, issuer, audience. If you press <enter>it will list the options for you.  If you select none, sapi will create a barebone installation with no authentication.  If you select issuer sapi will create a Json Web Token (JWT) issuer.  An issuer is responsible for authenticating users and generating JWTs which the client application can then pass back to the issuer or to audience servers to prove the user is authenticated. If you select audience, sapi will setup your project as an audience server  which is able to understand JWTs issued by the issuer, but the audience server has no authentication responsibilities. It relies on the issuer for its user authentication. Remember, SakuraApi is built from the ground up to support microservices, hence the different roles.
  
 To keep things simple for this lesson, select __n__ for __none__
 
@@ -83,8 +71,7 @@ You should see the output
 
 Where did this output come from?  Let's open the code and look at __src/api/config.api.ts__
 
-This file defines the routes handled by the SakuraApi server.   The ___ConfigApi___ class is a Routable Class.  
-We can define different methods that the API will handle.  We also define the method or function that will handle each type of request. 
+This file defines the routes handled by the SakuraApi server.   The ___ConfigApi___ class is a Routable Class. We can define different methods that the API will handle.  We also define the method or function that will handle each type of request. 
 
 Let's look at this example of a GET request we sent to the server through Postman.
 
@@ -99,9 +86,7 @@ Let's look at this example of a GET request we sent to the server through Postma
      }     
 ```
 
-`path` tells the server to use this handler when the baseurl has nothing else on it.  It calls getHandler, which wraps around 
-the configHandler.  NextFunction is an Interface defined in Express as a way of handling 
-middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
+`path` tells the server to use this handler when the baseurl has nothing else on it.  It calls getHandler, which wraps around the configHandler.  NextFunction is an Interface defined in Express as a way of handling middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
 
 ### Make a new Route
 Create a new file in the ___config/api/___ directory called jar.api.ts
@@ -151,11 +136,7 @@ export class JarApi extends SakuraApiRoutable {
 
 ```
 
-This has one Route, a get request at __/jar__.  Let's test it out with Postman.  
-If you haven't stopped your running server with a ctrl-C, you can go to Postman and visit __http://localhost:8001/api/jar__
-
-and you will get a 404 Not found error.  Oh No!  What went wrong?  We forgot to register the new api in the Routes.  
-For those familiar with Angular patterns, this is similar to declaring Components in the core App Module.  
+This has one Route, a get request at __/jar__.  Let's test it out with Postman. If you haven't stopped your running server with a ctrl-C, you can go to Postman and visit __http://localhost:8001/api/jar__ and you will get a 404 Not found error.  Oh No!  What went wrong?  We forgot to register the new api in the Routes. For those familiar with Angular patterns, this is similar to declaring Components in the core App Module.  
 
 Let's open the file in __/src/sakura-api.ts__
 
@@ -180,5 +161,10 @@ Now go back to Postman and test __http://localhost:8001/api/jar__.  You will now
   "coins": "coin-jar"
 }
 ```
+
+### What happened?
+We created a JarApi class that extends SakuraApiRoutable class.  Let's take a look at [the documentation](https://sakuraapi.github.io/api/) for [this class](https://sakuraapi.github.io/api/classes/_core__routable_sakura_api_routable_.sakuraapiroutable.html).
+  
+
 
 In the next Lesson we'll do something with this.  
