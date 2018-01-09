@@ -57,6 +57,7 @@ and
         .send(OK, {
           coins: jarService.coins
         });
+    }
 ```
 
 What we're doing here is we're declaring a variable that is an instance of the JarService called jarService.  And then we'll use it.  
@@ -124,7 +125,6 @@ Now let's add the incrementHandler.
         });
       this.log.error(err);
     }
-  }
 ```
 At this time we'll increment by 1, eventually we'll see if we can increment by a value.  
 
@@ -141,3 +141,39 @@ Now let's change the postHandler to call incrementHandler instead of defaultHand
 With the server running, visit ___http://localhost:8001/api/jar/add/1___ in Postman.  Again make sure your method is POST.  
 Now with each push of the __Send__ button you will get a new coin into your jar.  And we're that much closer to our @#$ing party.  
 
+### Incrememnt by more than 1
+We had set the path in our post Route to be 
+```typescript
+path: 'add/:coins'
+```
+That `:coins` is a Route Parameter.  It should be familiar to Angular Developers.  The system will accept anything in the URL and treat the stuff after `/add/` as a string.  Let's store it first.  
+
+Inside the incrementHandler
+```typescript
+const incCoins: number = +req.params.coins;
+```
+
+That unary __+__ operator is used to convert the string into a number in an elegant way.  The nice thing is that non-number strings being passed into this API will be counted as '1'.  If you want it to do something else with that, you'll have to implement it.  
+
+We almost forgot to use the `incCoins` variable in our `addCoins` call.  
+
+````typescript
+ try {
+      locals
+        .send(OK, {
+          coins: this.jarService.addCoins(incCoins)
+        });
+      }
+````
+
+### Test new version
+
+Postman to ___http://localhost:8001/api/jar/add/1__ works as before.
+___http://localhost:8001/api/jar/add/2__ adds 2. 
+___http://localhost:8001/api/jar/add/2million__ adds 1.
+___http://localhost:8001/api/jar/add/hi__ adds 1.
+___http://localhost:8001/api/jar/add/-5__ subtracts 5.  
+
+Code for a working version of this example can be found at [candleshine/coin-jar](https://github.com/candleshine/coin-jar) on the example-2 branch.  
+
+Next lesson will have us persisting the data in a MongoDB
