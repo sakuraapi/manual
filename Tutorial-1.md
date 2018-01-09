@@ -89,7 +89,7 @@ Let's look at this example of a GET request we sent to the server through Postma
 `path` tells the server to use this handler when the baseurl has nothing else on it.  It calls getHandler, which wraps around the configHandler.  NextFunction is an Interface defined in Express as a way of handling middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
 
 ### Make a new Route
-Create a new file in the ___config/api/___ directory called jar.api.ts
+Create a new file in the ___src/api/___ directory called jar.api.ts
 
 Copy in this snippet of code 
 ```typescript
