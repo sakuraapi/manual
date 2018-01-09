@@ -29,7 +29,7 @@ Ok, let’s get started.
 
 First, navigate to a directory where you want to experiment. Next, run sapi init test, where test could be whatever you want the output directory to be named. Note, if you just run sapi init it will attempt to setup a SakuraApi project in the current directory.
 
-I keep all my work in a dev directory in my home folder, so my initial setup would look something like this:
+I keep all my work in a dev directory in my home folder, so my initial setup would look something like this: 
 
 ```shell
 cd ~/dev/tmp
