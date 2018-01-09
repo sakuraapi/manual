@@ -29,7 +29,7 @@ Ok, let’s get started.
 
 First, navigate to a directory where you want to experiment. Next, run sapi init test, where test could be whatever you want the output directory to be named. Note, if you just run sapi init it will attempt to setup a SakuraApi project in the current directory.
 
-I keep all my work in a dev directory in my home folder, so my initial setup would look something like this:
+I keep all my work in a dev directory in my home folder, so my initial setup would look something like this: 
 
 ```shell
 cd ~/dev/tmp
@@ -53,7 +53,7 @@ cd test
 npm test
 ```
 
-Now, type `npm start`. You now have a running SakuraApi server running on localhost:8001. Press <control-c> to stop the server.
+Now, type `npm start`. You now have a running SakuraApi server running on localhost:8001. Press ___control-c___ to stop the server.
 
 ### See your running API server in Postman
 You can see the server running by opening Postman and doing a GET request to localhost:8001/api.  
@@ -69,7 +69,7 @@ You should see the output
 }
 ```
 
-Where did this output come from?  Let's open the code and look at __src/api/config.api.ts__
+Where did this output come from?  Let's open the code and look at __test/src/api/config.api.ts__
 
 This file defines the routes handled by the SakuraApi server.   The ___ConfigApi___ class is a Routable Class. We can define different methods that the API will handle.  We also define the method or function that will handle each type of request. 
 
@@ -89,7 +89,7 @@ Let's look at this example of a GET request we sent to the server through Postma
 `path` tells the server to use this handler when the baseurl has nothing else on it.  It calls getHandler, which wraps around the configHandler.  NextFunction is an Interface defined in Express as a way of handling middleware.  See more in the [Express documentation](https://expressjs.com/en/guide/using-middleware.html).
 
 ### Make a new Route
-Create a new file in the ___config/api/___ directory called jar.api.ts
+Create a new file in the ___test/src/api/___ directory called jar.api.ts
 
 Copy in this snippet of code 
 ```typescript
