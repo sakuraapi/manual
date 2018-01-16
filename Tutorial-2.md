@@ -17,24 +17,33 @@ The Jar Service will control the data for the jar.  There is only one variable, 
 Here's the code for the JarService.  I'm putting it in services/jar-service.ts
 
 ```typescript
-import {SakuraApi} from '@sakuraapi/api';
+import {
+  Injectable,
+  SakuraApi,
+  SapiInjectableMixin
+} from '@sakuraapi/api';
 import {LogService} from './log-service';
 
-export class JarService {
+export {SakuraApi};
+
+@Injectable()
+export class JarService extends SapiInjectableMixin() {
 
   coins = 0;
   private config: any;
   private log: LogService;
 
-  constructor(private sapi: SakuraApi, options?: any) {
-    this.config = this.sapi.config.jar;
+  constructor() {
+    super();
   }
 
   addCoins(increment?: number) {
     this.coins += increment || 1;
-    this.log.info('Adding ' + increment + '\n total now ' + this.coins);
+    // this.log.info('Adding ' + increment + '\n total now ' + this.coins);
+    return this.coins;
   }
 }
+
 
 ```  
 
