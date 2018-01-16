@@ -93,17 +93,34 @@ Create a new file in the ___test/src/api/___ directory called jar.api.ts
 
 Copy in this snippet of code
 ```typescript
-import {IRoutableLocals, Routable, Route, SakuraApiRoutable} from '@sakuraapi/api';
-import {NextFunction, Request, Response} from 'express';
-import {OK, SERVER_ERROR} from '../lib/http-status';
+import {
+  IRoutableLocals,
+  Routable,
+  Route,
+  SakuraApi,
+  SapiRoutableMixin
+} from '@sakuraapi/api';
+import {
+  NextFunction,
+  Request,
+  Response
+} from 'express';
+import {
+  OK,
+  SERVER_ERROR
+} from '../lib/http-status';
 import {LogService} from '../services/log-service';
+
+export {SakuraApi};
 
 @Routable({
   baseUrl: '/jar'
 })
-export class JarApi {
+export class JarApi extends SapiRoutableMixin() {
+
 
   constructor(private log: LogService) {
+    super();
   }
 
   @Route({
@@ -121,7 +138,7 @@ export class JarApi {
     try {
       locals
         .send(OK, {
-          coins: 'hello, world'
+          coins: 'coin-jar'
         });
     } catch (err) {
       locals
