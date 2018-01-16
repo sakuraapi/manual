@@ -34,6 +34,11 @@ Some fluffier objectives include:
 * Fork the repo, make your changes, then open a Pull Request
 * Ideally, you should open an issue first (https://github.com/sakuraapi/manual/issues) and commit against that issue
 
+## Content
+* Tutorial 1: [My First API](tutorials/Tutorial-001.md)
+* Tutorial 2: [Adding a Service](tutorials/Tutorial-002.md)
+* Tutorial 3: [Adding a model](tutorials/Tutorial-003.md)
+
 ## Starting a new project
 ### Install Sakura CLI globally
 `npm install --global @sakuraapi/cli`
