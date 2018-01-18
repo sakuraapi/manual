@@ -41,5 +41,5 @@ Some fluffier objectives include:
 * [Getting Started](Getting%20Started.md)
 * [Walk throguh the output of the CLI](Directory%20Structure.md)
 
-
- 
+## Appendices
+* [Resolving Circular Dependencies](appendices/circular-di.md)
