@@ -38,6 +38,7 @@ Depending on what version of SakuraApi you're using, you're going to get some ki
 ```
 Error: Unable to inject undefined into A. Only classes decorated with '@Injectable' can be passed into the A constructor.
 ```
+[Note: until [122](https://github.com/sakuraapi/api/issues/122) is resolved, it will actually throw an error stating that it cannot read property of undefined error] 
 
 Clearly both `A` and `B` are decorated with `@Injectable`. The error indicates a possible circular dependency.
 
