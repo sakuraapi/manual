@@ -32,7 +32,7 @@ Some things to keep in mind about `@Injectable` decorated classes:
 * Constructor parameters must be other `@Injectable` decorated services. Any other type of parameter will throw an error.
 
 # SapiInjectableMixin()
-Note above that the `NumberService` example class above is decorated with `@Injectable` extends `SapiInjectableMixin()`. This is how TypeScript is made aware of the typing for `NumberService` for the functionality that's mixed in when `NumberService` is instantiated.
+Note above that the `NumberService` example class is decorated with `@Injectable` and it extends `SapiInjectableMixin()`. This is how TypeScript is made aware of the typing for `NumberService` for the functionality that's mixed in when `NumberService` is instantiated.
 
 You can find the source code for `SapiInjectableMixin` [here](https://github.com/sakuraapi/api/blob/develop/src/core/%40injectable/sapi-injectable-mixin.ts). You'll see that TypeScript is made aware of the following mixin functionality:
 ```
@@ -98,7 +98,7 @@ Remember, `@Injectable()` services are singletons (there will only ever be one i
 You must be careful to avoid creating circular dependencies (this is usually a bad smell that indicates some more fundamental design issue). However, if a circular dependency is unavoidable, you can work around it by manually getting instances of your services with the SakuraApi `getProvider` method. See [Resolving Circular Dependencies](../appendices/circular-di.md).
 
 # Overriding / Mocking Services
-It is sometimes desirable to override the a service with an alternative service (for example, when Mocking a service for testing). When you do this, make sure your alternative service sufficiently meets the interface needs of the original service or you're going to have runtime errors. Here's how you override a service:
+It is sometimes desirable to override a service with an alternative service (for example, when mocking a service for testing). When you do this, make sure your alternative service sufficiently meets the interface needs of the original service or you're going to have runtime errors. Here's how you override a service:
 ```
 const sapi = new SakuraApi({
     providers: [
