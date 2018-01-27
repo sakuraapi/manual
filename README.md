@@ -35,11 +35,21 @@ Some fluffier objectives include:
 * Ideally, you should open an issue first (https://github.com/sakuraapi/manual/issues) and commit against that issue
 
 ## Content
+
+### Tutorials
+
 * Tutorial 1: [My First API](tutorials/Tutorial-001.md)
 * Tutorial 2: [Adding a Service](tutorials/Tutorial-002.md)
 * Tutorial 3: [Adding a model](tutorials/Tutorial-003.md)
 * [Getting Started](Getting%20Started.md)
 * [Walk throguh the output of the CLI](Directory%20Structure.md)
 
+### Decorators
+
+* [Models](model/readme.md)
+* [Routables](routable/readme.md)
+* [Injectable](injectable/readmme.md)
+
 ## Appendices
+
 * [Resolving Circular Dependencies](appendices/circular-di.md)
