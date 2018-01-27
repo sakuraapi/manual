@@ -48,7 +48,7 @@ Some fluffier objectives include:
 
 * [Models](model/readme.md)
 * [Routables](routable/readme.md)
-* [Injectable](injectable/readmme.md)
+* [Injectable](injectable/readme.md)
 
 ## Appendices
 
