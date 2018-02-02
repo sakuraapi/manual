@@ -59,7 +59,7 @@ and
 ```typescript
  async defaultHandler(req: Request, res: Response): Promise<void> {
     const locals = res.locals as IRoutableLocals;
-    const jarService = new JarService(JarApi.sapi);
+    const jarService = new JarService();
 
     try {
       locals
@@ -102,7 +102,7 @@ For now we'll use the defaultHandler to process this request.  Let's see if it w
 Quite a few changes are going to need to happen.  The JarService needs to be instantiated in the constructor of the API, not in the default handler.  We're going to remove this line.  
 
 ```typescript
-const jarService = new JarService(JarApi.sapi);
+const jarService = new JarService();
 ```
 
 This jarService variable will, instead, be a private member of the jarApi object.  Let's put it above the contructor, and update the constructor to initialize it.  
@@ -112,10 +112,15 @@ This jarService variable will, instead, be a private member of the jarApi object
 
   constructor(private log: LogService) {
     super();
-    this.jarService = new JarService(JarApi.sapi);
+    this.jarService = new JarService();
   }
 ```
 
+Remove the reference to the object as well.
+
+```typescript
+ coins: 'coin-jar'
+```
 Now let's add the incrementHandler.
 
 ```typescript
@@ -134,6 +139,7 @@ Now let's add the incrementHandler.
         });
       this.log.error(err);
     }
+  }
 ```
 At this time we'll increment by 1, eventually we'll see if we can increment by a value.  
 
@@ -150,7 +156,7 @@ Now let's change the postHandler to call incrementHandler instead of defaultHand
 With the server running, visit ___http://localhost:8001/api/jar/add/1___ in Postman.  Again make sure your method is POST.  
 Now with each push of the __Send__ button you will get a new coin into your jar.  And we're that much closer to our @#$ing party.  
 
-### Incrememnt by more than 1
+### Increment by more than 1
 We had set the path in our post Route to be 
 ```typescript
 path: 'add/:coins'
