@@ -1,8 +1,8 @@
-**Debug sakuraapi project right from webstorm**
+*Debug sakuraapi project right from webstorm*
 
 Debugging from webstorm will save a lot time than traditional console logs.
 
-Here is the list of steps to configure debugging your sakuraapi.
+Here is the list of steps to configure debugging your sakuraapi project.
 
 1. Click on Run select Edit configurations.
 
@@ -26,7 +26,7 @@ Voila! , Now your &quot;ts debug&quot;configuration is ready.
 
  ![](./../images/.Tutorial-004_images/image4.png)
 
-2) Your sakuraapi project running in debug mode.set a breakpoint by clicking on empty space beside code space.
+2) Your sakuraapi project running in debug mode.set a breakpoint by clicking on empty space beside code.
 
  ![](./../images/.Tutorial-004_images/image3.png)
 
