@@ -4,19 +4,22 @@ Debugging from webstorm will save a lot time than traditional console logs.
 
 Here is the list of steps to configure and debug your sakuraapi project.
 
-1. Click on `Run` select `Edit configurations`.
+1.Click on `Run` select `Edit configurations`.
 
  ![](./../images/.Tutorial-004_images/image6.png)
 
-2. Click on `+` to create a new configuration and select js.
+2.Click on `+` to create a new configuration and select js.
 
  ![](./../images/.Tutorial-004_images/image2.png)
 
 
-3. `Name` Your configuration. Ex: &quot;ts debug&quot;
-4. Select `Node Interpreter` configuration from drop down.
-5. Select init `javascript file`. Ex: &quot;dist/src/index.js&quot; for sakuraapi
-6. Click on `apply` and `ok`.
+3.`Name` Your configuration. Ex: &quot;ts debug&quot;
+
+4.Select `Node Interpreter` configuration from drop down.
+
+5.Select init `javascript file`. Ex: &quot;dist/src/index.js&quot; for sakuraapi project.
+
+6.Click on `apply` and `ok`.
 
 Voila! , Now your &quot;ts debug&quot;configuration is ready.
 
