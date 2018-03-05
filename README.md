@@ -41,6 +41,7 @@ Some fluffier objectives include:
 * Tutorial 1: [My First API](tutorials/Tutorial-001.md)
 * Tutorial 2: [Adding a Service](tutorials/Tutorial-002.md)
 * Tutorial 3: [Adding a model](tutorials/Tutorial-003.md)
+* Tutorial 4: [Debug a sakuraapi project](tutorials/Tutorial-004.md)
 * [Getting Started](Getting%20Started.md)
 * [Walk throguh the output of the CLI](Directory%20Structure.md)
 
