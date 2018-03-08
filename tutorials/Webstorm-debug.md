@@ -6,11 +6,11 @@ Here is the list of steps to configure and debug your sakuraapi project.
 
 1.Click on `Run` select `Edit configurations`.
 
- ![](./../images/.Tutorial-004_images/image6.png)
+ ![](./../images/.Webstorm-debug_images/image6.png)
 
 2.Click on `+` to create a new configuration and select js.
 
- ![](./../images/.Tutorial-004_images/image2.png)
+ ![](./../images/.Webstorm-debug_images/image2.png)
 
 
 3.`Name` Your configuration. Ex: &quot;ts debug&quot;
@@ -27,19 +27,19 @@ Voila! , Now your &quot;ts debug&quot;configuration is ready.
 
 1)Once &quot;ts debug&quot; is ready, start your project in debug mode by clicking on bug symbol.
 
- ![](./../images/.Tutorial-004_images/image4.png)
+ ![](./../images/.Webstorm-debug_images/image4.png)
 
 2)Your sakuraapi project running in debug mode.set a breakpoint by clicking on empty space beside code.
 
- ![](./../images/.Tutorial-004_images/image3.png)
+ ![](./../images/.Webstorm-debug_images/image3.png)
 
 3)Hit that route in browser , you can see a hit to your breakpoint
 
- ![](./../images/.Tutorial-004_images/image5.png)
+ ![](./../images/.Webstorm-debug_images/image5.png)
 
 4)You can see all the required information at that debug point.you can play with resume , step-in, step-out ,next-line and restart .
 
- ![](./../images/.Tutorial-004_images/image1.png)
+ ![](./../images/.Webstorm-debug_images/image1.png)
 
 That&#39;s all folks
 
