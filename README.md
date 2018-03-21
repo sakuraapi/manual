@@ -43,6 +43,7 @@ Some fluffier objectives include:
 * Tutorial 3: [Adding a model](tutorials/Tutorial-003.md)
 * [Getting Started](Getting%20Started.md)
 * [Walk throguh the output of the CLI](Directory%20Structure.md)
+* [Debug a sakuraapi project](tutorials/Webstorm-debug.md)
 
 ### Decorators
 
