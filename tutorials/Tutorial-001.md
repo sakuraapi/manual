@@ -5,7 +5,7 @@ In this lesson we will build our first API using SakuraApi.  We're going to star
 
 ## Prerequisites
 Let's assume you have a development capable computer.  Let's assume you are breathing.
-- [Node and npm](https://www.npmjs.com/get-npm)
+- [Node (>= 8.10.0) and npm](https://www.npmjs.com/get-npm)
 - [Docker](https://docs.docker.com/engine/installation/)
 
 optional
