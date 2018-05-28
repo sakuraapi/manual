@@ -1,6 +1,11 @@
 # Introduction
 
-This manual is best viewed here: [https://sakuraapi.gitbook.io/sakuraapi/](https://sakuraapi.gitbook.io/sakuraapi/)
+SakuraApi is a modern NodeJS framework optimized for use with MongoDB and TypeScript.
+
+```javascript
+npm i -g @sakuraapi/cli
+sapi init sample
+```
 
 ## Contributing
 
