@@ -10,6 +10,7 @@ If you're reading this on [https://github.com/sakuraapi/manual](https://github.c
 * @sakuraapi/core Api documentation: [https://sakuraapi.github.io/docs-core/](https://sakuraapi.github.io/docs-core/)
 *  Blog: [https://blog.sakuraapi.com/](https://blog.sakuraapi.com/)
 * Github repo for this manual: [https://github.com/sakuraapi/manual](https://github.com/sakuraapi/manual)
+* Contributing to this manual: [https://sakuraapi.gitbook.io/sakuraapi\#contributing](https://sakuraapi.gitbook.io/sakuraapi#contributing)
 
 ## Goals
 
