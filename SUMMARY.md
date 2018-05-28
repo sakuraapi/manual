@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Introduction](README.md)
+* [Introduction](introduction.md)
 * [Starting a new project](getting-started.md)
 * [Structure of the CLI output](directory-structure.md)
 * tutorials
