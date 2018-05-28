@@ -10,8 +10,7 @@
   * [Tutorial-003](tutorials/tutorial-003.md)
 * [Models](model-1.md)
 * [Injectable](injectable-1.md)
-* routable
-  * [readme](routable/routable.md)
+* [Routable](routable-1.md)
 * appendices
   * [circular-di](appendices/circular-di.md)
   * [Webstorm-debug](appendices/webstorm-debug.md)
