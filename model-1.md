@@ -1,24 +1,5 @@
 # Models
 
-* [Introduction](model-1.md#introduction)
-* [Configuration](model-1.md#configuration)
-  * [@Model Options](model-1.md#model-options)
-    * [dbConfig](model-1.md#dbconfig)
-* [Marshalling to and from Json](model-1.md#marshalling-to-and-from-json)
-  * [toJson](model-1.md#tojson)
-  * [toJsonString](model-1.md#tojsonstring)
-  * [fromJson](model-1.md#fromjson)
-  * [fromJsonArray](model-1.md#fromjsonarray)
-  * [fromJsonToDb](model-1.md#fromjsontodb)
-  * [Context](model-1.md#context)
-    * [@Json with context](model-1.md#json-with-context)
-    * [@FormatToJson and @FormatFromJson](model-1.md#formattojson-and-formatfromjson)
-    * [@Json with formatter functions](model-1.md#json-with-formatter-functions)
-  * [Nested Models and Objects](model-1.md#nested-models-and-objects)
-    * [Nested Models](model-1.md#nested-models)
-    * [Nested Objects \(promiscuous mode\)](model-1.md#nested-objects-promiscuous-mode)
-  * [Protecting fields from Json](model-1.md#protecting-fields-from-json)
-
 ## Introduction
 
 `@Model` is a decorator that declares to SakuraApi that the class being decorated should have the various model related features mixed into it.
