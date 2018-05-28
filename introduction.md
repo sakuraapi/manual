@@ -20,3 +20,13 @@ Some of the features of SakuraApi include:
 | MongoDB | SakuraApi is not all things to all databases. It currently only supports MongoDB. Database Abstraction technologies are useful in trivial cases, but they can become a burden to work with in more complex scenarios because no matter how elegantly a library tries to hide the details of the underlying database, at the end of the day, MongoDB is not MySQL is not PostgreSQL. SakuraApi is currently focused on  MongoDB integration. Future versions may support a growing number of databases. |
 | Micro-services Oriented | SakuraApi's ecosystem leans towards support a micro-services based philosophy. |
 
+## Contributing
+
+If you'd like to help improve this documentation or any part of the SakuraApi ecosystem, please sign our CLA and then open a Pull Request with your proposed changes. Ideally, you'd open an issue in the appropriate [SakuraApi Github](https://github.com/sakuraapi) project first to make sure you efforts are being coordinated with other efforts taking place: 
+
+[![CLA assistant](https://cla-assistant.io/readme/badge/sakuraapi/manual)](https://cla-assistant.io/sakuraapi/manual)
+
+* Sign the CLA
+* Fork the repo, make your changes, then open a Pull Request
+* Ideally, you should open an issue first \([https://github.com/sakuraapi/manual/issues](https://github.com/sakuraapi/manual/issues)\) and commit against that issue
+
