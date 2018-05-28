@@ -9,8 +9,7 @@
   * [Tutorial-002](tutorials/tutorial-002.md)
   * [Tutorial-003](tutorials/tutorial-003.md)
 * [Models](model-1.md)
-* injectable
-  * [readme](injectable/injectable.md)
+* [Injectable](injectable-1.md)
 * routable
   * [readme](routable/routable.md)
 * appendices

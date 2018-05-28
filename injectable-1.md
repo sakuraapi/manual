@@ -1,4 +1,4 @@
-# readme
+# Injectable
 
 ## Introduction
 
@@ -110,7 +110,7 @@ The preceding contrived example has three services: `NumberService`, `NegativeNu
 
 Remember, `@Injectable()` services are singletons \(there will only ever be one instance of each service\), and they must each be registered with SakuraApi when it is being instantiated via its `providers` option.
 
-You must be careful to avoid creating circular dependencies \(this is usually a bad smell that indicates some more fundamental design issue\). However, if a circular dependency is unavoidable, you can work around it by manually getting instances of your services with the SakuraApi `getProvider` method. See [Resolving Circular Dependencies](../appendices/circular-di.md).
+You must be careful to avoid creating circular dependencies \(this is usually a bad smell that indicates some more fundamental design issue\). However, if a circular dependency is unavoidable, you can work around it by manually getting instances of your services with the SakuraApi `getProvider` method. See [Resolving Circular Dependencies](appendices/circular-di.md).
 
 ## Overriding / Mocking Services
 
