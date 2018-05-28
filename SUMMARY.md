@@ -8,8 +8,7 @@
   * [Tutorial-001](tutorials/tutorial-001.md)
   * [Tutorial-002](tutorials/tutorial-002.md)
   * [Tutorial-003](tutorials/tutorial-003.md)
-* model
-  * [readme](model/model.md)
+* [Models](model-1.md)
 * injectable
   * [readme](injectable/injectable.md)
 * routable
