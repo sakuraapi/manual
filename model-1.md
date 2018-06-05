@@ -2,9 +2,9 @@
 
 ## Introduction
 
-`@Model` is a decorator that declares to SakuraApi that the class being decorated should have the various model related features mixed into it.
+`@Model` is a decorator that declares a class will have the various model related features mixed into it.
 
-A model represents an entity that can be marshalled to and from JSON or to and from a Database \(currently MongoDB\).
+A model represents an entity that can be marshalled to and from JSON or to and from a database \(currently MongoDB\).
 
 For example, the following would be a simple `User` model.
 
@@ -19,7 +19,7 @@ export class User extends SapiModelMixin() {
 }
 ```
 
-Note that though `User` extends `SapiModelMixin`, it is not actually inheriting any of its functionality from that base class. `SapiModelMixin` exists simply to inform TypeScript of what types are being mixed in by the `@Model` decorator. You can inherit your own base class by passing it in as the parameter for `SapiModelMixin` \(e.g., `SapiModelMixin(YourBaseClass)`\).
+Note that though `User` extends `SapiModelMixin`, it is not actually inheriting any of its functionality from that base class. `SapiModelMixin` exists simply to inform TypeScript of the types for the methods and properties that are being mixed in by the `@Model` decorator. You can inherit your own base class by passing it in as the parameter for `SapiModelMixin` \(e.g., `SapiModelMixin(YourBaseClass)`\).
 
 For those who are interested, the reason SakuraApi doesn't use an interface here \(for example, `ISapiModel`\) is because some of the methods mixed in are static \(i.e., not on the prototype\), and TypeScript does not allow you to declare static members as part of your interface.
 
