@@ -2,9 +2,9 @@
 
 ## Introduction
 
-`@Model` is a decorator that declares a class will have the various model related features mixed into it.
+`@Model` is a class decorator that declares a class has various model related features mixed into it.
 
-A model represents an entity that can be marshalled to and from JSON or to and from a database \(currently MongoDB\).
+A model represents an entity that can be marshaled to and from JSON or to and from a database \(exclusively MongoDB, at the moment\).
 
 For example, the following would be a simple `User` model.
 
@@ -23,17 +23,15 @@ Note that though `User` extends `SapiModelMixin`, it is not actually inheriting 
 
 For those who are interested, the reason SakuraApi doesn't use an interface here \(for example, `ISapiModel`\) is because some of the methods mixed in are static \(i.e., not on the prototype\), and TypeScript does not allow you to declare static members as part of your interface.
 
-## Configuration
-
-### @Model Options
+## Configuration \(@Model Options\)
 
 `@Model` takes an `IModelOptions` as its argument.
 
-#### dbConfig
+### dbConfig
 
-Models are usually, though not necessarily, associated with a database and collection. For example:
+Models are often associated with a database and collection. For example:
 
-```text
+```javascript
 @Model({
     dbConfig: {
         db: 'user',
@@ -49,11 +47,11 @@ export class User extends SapiModelMixin() {
 }
 ```
 
-`@Model` takes an `IModelOptions` as its argument. One of the options you can pass to `@Model` is `dbConfig`. This tells SakuraApi which database connection to use when marshalling the model to or from the database.
+`@Model` optionally takes a parameter of type `IModelOptions`. One of the options you can pass to `@Model` is `dbConfig`. This tells SakuraApi which database connection to use when marshaling the model to or from the database.
 
 By convention, there's usually a `dbs.ts` file in your `src/config/bootstrap` directory that exports various database configurations so that you don't have to manually type in the string names, which is error prone. So, assuming you have a `dbs.ts` file that includes a single database configuration for the `User` model above, it would look like this:
 
-```text
+```javascript
 export const dbs = {
   donation: {
     collection: 'users',
@@ -79,7 +77,7 @@ export class User extends SapiModelMixin() {
 
 In addition to eliminating the possibility of typos while you're declaring your model, the `dbs.ts` convention also gives you the convenience of being able to easily rename collections and databases as well as the convenience of using refactoring tools to rename `dbs` properties \(if your IDE support refactoring features\).
 
-Note, however, that declaring a collection and database in the options of your `@Model` is not sufficient to configuring SakuraApi to use your database. `dbConfig` tells SakuraApi the database name and collection to use, but it does not tell SakuraApi how to connect to the database. Instead, `dbConfig` tells your `@Model` where your actual database configuration is stored in one of your `environment` files.
+Note, however, that declaring a collection and database in the options of your `@Model` is not sufficient to configuring SakuraApi to use your database. `dbConfig` tells SakuraApi the database name and collection to use, but it does not tell SakuraApi how to connect to the database. Instead, `dbConfig` tells your `@Model` where your actual database configuration is stored in your `config/vironment` files.
 
 For example, your `environment.ts` file might have the following section:
 
@@ -99,13 +97,59 @@ module.exports = {
 
 SakuraApi's cli \(`sapi`\) will scaffold the boilerplate configuration, but you'll have to provide the database specifics.
 
-The `dbConnections` array in your environment configuration is used by SakuraApi's `SakuraMongoDbConnection` during bootstrapping to build an internal map of MongoDB configurations. An `@Model`'s `dbConfig` uses `dbConfig.db` to look up the correct database connection and it provides `dbConfig.collection` to specifiy the collection to which a document should be marshalled to or from.
+The `dbConnections` array in your environment configuration is used by SakuraApi's `SakuraMongoDbConnection` during bootstrapping to build an internal map of MongoDB configurations. An `@Model`'s `dbConfig` uses `dbConfig.db` to look up the correct database connection and it provides `dbConfig.collection` to specify the collection to which a document should be marshaled to or from.
 
-Notice that the `dbConnections` configuration object's `name` field should be what is being passed into the `@Model` `dbConfig.db` field.
+The `dbConnections` configuration object's `name` property is what is passed into the `@Model` `dbConfig.db` field.
 
-## Marshalling to and from Json
+#### collation
 
-One of the common tasks that a web server is reponsible for is marshalling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to Json. As seamless as it may be, this transformation still needs to take place.
+If your particular set of data requires MongoDB's collation feature, you can set the default collation for your model with the optional `collation` property. For example:
+
+```javascript
+@Model({
+    collation: { locale: 'en' },
+    dbConfig: dbs.donation
+})
+export class User extends SapiModelMixin() {}
+```
+
+`collation` is takes an [`IMongoDBCollation`](https://sakuraapi.github.io/docs-core/develop/interfaces/imongodbcollation.html) object.  You can learn more about MongoDB collation from the [MongoDB Docs](https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales).
+
+#### promiscuous
+
+By default, SakuraApi does not store fields from the model that are not decorated with `@Db`. You can override this behavior by making the `@Model` promiscuous.
+
+```javascript
+ample:
+@Model({
+    dbConfig: dbs.donation,
+    promiscuous: true
+})
+export class User extends SapiModelMixin() {}
+```
+
+#### cipherKey
+
+SakuraApi can encrypt certain fields when marshaling data to and from JSON. An example of when this might be helpful is if you have ids that could be used to correlate some secret about your data. In that case, you want to make sure that each time that id is sent to a client, that it is indistinguishable from random noise. In other words, a client could get id `1` multiple times and each time, no matter how many times that id was retrieved, it would be impossible to tell that it was related to the prior forms of that id. 
+
+```javascript
+@Model({ 
+    cipherKey: '123', 
+    dbConfig: dbs.user
+})
+export class User extends SapiModelMixin(BaseModel) {
+    @Json({encrypt: true, type: 'id'})
+    secretId: ObjectID;
+}
+```
+
+The cipher key is the private key that's used when encrypting `secreteId` `toJson()` and `fromJson()`
+
+`cipherKey` must be a valid AES private key.
+
+## Marshaling to and from JSON
+
+One of the common tasks that a web server is responsible for is marshaling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to JSON. As seamless as it may be, this transformation still needs to take place.
 
 SakuraApi models have several methods to assist with marshalling to and from Json.
 
