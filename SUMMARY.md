@@ -8,7 +8,7 @@
   * [Tutorial-001](tutorials/tutorial-001.md)
   * [Tutorial-002](tutorials/tutorial-002.md)
   * [Tutorial-003](tutorials/tutorial-003.md)
-* [Models](model-1.md)
+* [@Model Class Decorator](model-1.md)
 * [Injectable](injectable-1.md)
 * [Routable](routable-1.md)
 * [appendices](appendices/README.md)

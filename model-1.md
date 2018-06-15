@@ -1,4 +1,4 @@
-# Models
+# @Model Class Decorator
 
 ## Introduction
 
@@ -23,7 +23,7 @@ Note that though `User` extends `SapiModelMixin`, it is not actually inheriting 
 
 For those who are interested, the reason SakuraApi doesn't use an interface here \(for example, `ISapiModel`\) is because some of the methods mixed in are static \(i.e., not on the prototype\), and TypeScript does not allow you to declare static members as part of your interface.
 
-## Configuration \(@Model Options\)
+## @Model\({...options}\)
 
 `@Model` takes an `IModelOptions` as its argument.
 
@@ -101,34 +101,7 @@ The `dbConnections` array in your environment configuration is used by SakuraApi
 
 The `dbConnections` configuration object's `name` property is what is passed into the `@Model` `dbConfig.db` field.
 
-#### collation
-
-If your particular set of data requires MongoDB's collation feature, you can set the default collation for your model with the optional `collation` property. For example:
-
-```javascript
-@Model({
-    collation: { locale: 'en' },
-    dbConfig: dbs.donation
-})
-export class User extends SapiModelMixin() {}
-```
-
-`collation` is takes an [`IMongoDBCollation`](https://sakuraapi.github.io/docs-core/develop/interfaces/imongodbcollation.html) object.  You can learn more about MongoDB collation from the [MongoDB Docs](https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales).
-
-#### promiscuous
-
-By default, SakuraApi does not store fields from the model that are not decorated with `@Db`. You can override this behavior by making the `@Model` promiscuous.
-
-```javascript
-ample:
-@Model({
-    dbConfig: dbs.donation,
-    promiscuous: true
-})
-export class User extends SapiModelMixin() {}
-```
-
-#### cipherKey
+### cipherKey
 
 SakuraApi can encrypt certain fields when marshaling data to and from JSON. An example of when this might be helpful is if you have ids that could be used to correlate some secret about your data. In that case, you want to make sure that each time that id is sent to a client, that it is indistinguishable from random noise. In other words, a client could get id `1` multiple times and each time, no matter how many times that id was retrieved, it would be impossible to tell that it was related to the prior forms of that id. 
 
@@ -147,15 +120,36 @@ The cipher key is the private key that's used when encrypting `secreteId` `toJso
 
 `cipherKey` must be a valid AES private key.
 
-## Marshaling to and from JSON
+### collation
 
-One of the common tasks that a web server is responsible for is marshaling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to JSON. As seamless as it may be, this transformation still needs to take place.
+If your particular set of data requires MongoDB's collation feature, you can set the default collation for your model with the optional `collation` property. For example:
 
-SakuraApi models have several methods to assist with marshalling to and from Json.
+```javascript
+@Model({
+    collation: { locale: 'en' },
+    dbConfig: dbs.donation
+})
+export class User extends SapiModelMixin() {}
+```
 
-### toJson
+`collation` is takes an [`IMongoDBCollation`](https://sakuraapi.github.io/docs-core/develop/interfaces/imongodbcollation.html) object.  You can learn more about MongoDB collation from the [MongoDB Docs](https://docs.mongodb.com/manual/reference/collation-locales-defaults/#collation-languages-locales).
 
-`toJson` doesn't actually return a Json string. Instead, it maps a model's properties to their Json equivalents. For exampel, consider this model:
+### promiscuous
+
+By default, SakuraApi does not store fields from the model that are not decorated with `@Db`. You can override this behavior by making the `@Model` promiscuous.
+
+```javascript
+ample:
+@Model({
+    dbConfig: dbs.donation,
+    promiscuous: true
+})
+export class User extends SapiModelMixin() {}
+```
+
+## Model`.toJson`
+
+`toJson` doesn't actually return a JSON string. Instead, it maps a model's properties to their JSON field equivalents. For example, consider this model:
 
 ```javascript
 @Model()
@@ -171,7 +165,7 @@ const user = new User();
 const dto = user.toJson();
 ```
 
-The resulting `dto` takes the following shape:
+The resulting `dto` \(data transfer object\) takes the following shape:
 
 ```javascript
 {
@@ -180,13 +174,17 @@ The resulting `dto` takes the following shape:
 }
 ```
 
-This object is not an instance of a User model. Rather, it is an instance of Object ready to be marshalled to Json. With NodeJS with Express, this is as simple as returning this object as your response body.
+This resulting object is not an instance of a User model. Rather, it is an instance of Object ready to be marshaled to a JSON string. NodeJS with Express converts this object to a JSON string when you send it back as your response body.
 
-### toJsonString
+#### options
+
+`toJson` can be called with various options. 
+
+## Model`.toJsonString`
 
 Just like `toJson`, `toJsonString` will map your model to a resulting object that has the appropriate fields for your Json DTO. The difference is that it returns a proper Json string rather than a JavaScript object.
 
-### fromJson
+## Mode`.fromJson`
 
 `fromJson` takes an object and maps it to a model. Like `toJson`, `fromJson` does not actually handle a Json string. Instead, it expects an object that has already been marshalled from Json but has yet to be transformed into a model. For example:
 
@@ -213,11 +211,11 @@ const user = User.fromJson(json);
 
 The resulting `user` will be an object that is an instanceof a model with its fields properly mapped such that `firstName` has the value of `fn` \('John'\) and `lastName` has the value of `ln`.
 
-### fromJsonArray
+## Model`.fromJsonArray`
 
 Like `fromJson` except that it takes an array of objects that result in an array of models.
 
-### fromJsonToDb
+## Model`.fromJsonToDb`
 
 You usually won't use this method. It takes an object with JSON fields and directly maps to a resulting object that has DB fields and is ready to be marshalled to MongoDB.
 
@@ -255,9 +253,13 @@ The resulting dbObj will be an object taking the following shape:
 
 It is not an instsance of the User model.
 
-### Context
+## @Json\(\) Property Decorator
 
-#### @Json with context
+One of the common tasks that a web server is responsible for is marshaling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to JSON. As seamless as it may be, this transformation still needs to take place.
+
+SakuraApi models have several methods to assist with marshalling to and from Json.
+
+## @Json\(\) with context
 
 In a simple world you have Json DTOs that have consistent field names. For example, assuming the following Json user object:
 
@@ -304,7 +306,7 @@ The resulting `modelFromSource1` and `modelFromSource2` will both properly map t
 
 You can declare an `@Json` operator with a `*` context to tell SakuraApi to apply that `@Json` decorator to any context.
 
-#### @FormatToJson and @FormatFromJson
+## @ToJson\(\) and @FromJson\(\) Method Decorators
 
 While the above is helpful, sometimes you need to transform incoming Json DTOs in more complicated ways. For example, conside the following DTO:
 
@@ -354,7 +356,7 @@ Methods decorated with `@FormatFromJson` will be called after the regular `fromJ
 
 Both `@FormatFromJson` and `@FormatToJson` can be declared with a context \(e.g., `@FormatToJson('source2')`\). Both can also be declared with a `*` context so that they apply regardless of the specific context that's being marshalled.
 
-#### @Json with formatter functions
+## @Json\(\) with formatter functions
 
 You can declare an `@Json` decorator with the optional `formatToJson` property or the optional `formatFromJson` property to allow a property level formater function or method to be declared. For example:
 
@@ -363,14 +365,14 @@ You can declare an `@Json` decorator with the optional `formatToJson` property o
 export User extends SapiModelMixin() {
     @Json({
         field: 'fn',
-        formatToJson: (val: any, key: string) => (val || '').toLowerCase(),
-        formatFromJson: (val: any, key: string) => (val || '').toUpperCase()
+        toJson: (val: any, key: string) => (val || '').toLowerCase(),
+        fromJson: (val: any, key: string) => (val || '').toUpperCase()
     })
     @Json({
         context: 'source2',
         field: 'fName',
-        formatToJson: (val: any, key: string) => (val || '').toUpperCase(),
-        formatFromJson: (val: any, key: string) => (val || '').toLowerCase()
+        toJson: (val: any, key: string) => (val || '').toUpperCase(),
+        fromJson: (val: any, key: string) => (val || '').toLowerCase()
     })
     firstName: string;
 }
@@ -380,9 +382,9 @@ In the above example, the `IJsonOptions` object is passed into `@Json` rather th
 
 In any non-trivial case, you'll probably want to pass a reference to a formatter function rather than having the formatter inline as an anonymous function.
 
-### Nested Models and Objects
+## Nested Models and Objects
 
-#### Nested Models
+### Nested Models
 
 It is sometimes desireable to have nested models. It is often desireable in this scenario for the child object to be properly instantiated as an instance of the model it represents. For example:
 
@@ -428,7 +430,7 @@ const user = User.fromJson(
 
 The optional `model` property of `@Json` takes an `@Model` decorated class. This informs SakuraApi that this property should be instantiated as that model when calling `fromJson` and when calling `toJson`, if the property is present, SakuraApi should utilize its `@Json` decorators to inform the resulting json object.
 
-#### Nested Objects \(promiscuous mode\)
+### Nested Objects \(promiscuous mode\)
 
 The prior example is fine so long as you want to define a model for the sub-object. There may be times, however, where you just want to take the child object as-is without having to map all of its fields. In this scenario, you want SakuraApi to be a little less strict about its marshalling `fromJson`. You want it to be promiscous:
 
@@ -462,7 +464,7 @@ const user = User.fromJson(
 
 The resulting `user` will have an `address` property with whatever value was marshalled from the json object. This is helpful, as an example, in cases where you are integrating with a third party API and they pass you some kind of meta object \(or whatever\) that has a bunch of information that you won't actually use anywhere in your code, but you want to log it for auditing purposes. Keep in mind that you'll also have to make this field promiscuous for `@Db()` if you want to persist `meta` to the datbase \(details below\).
 
-### Protecting fields from Json
+## @Private\(\) - Protecting fields from Json
 
 There may be fields that you never want marshalled to Json. For example:
 
