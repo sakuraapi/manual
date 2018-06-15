@@ -147,9 +147,9 @@ ample:
 export class User extends SapiModelMixin() {}
 ```
 
-## Model`.toJson`
+## Model`.toJson()`
 
-`toJson` doesn't actually return a JSON string. Instead, it maps a model's properties to their JSON field equivalents. For example, consider this model:
+`toJson` maps a model's properties to a new Object with its models properties mapped to their JSON equivalents \(it doesn't actually return a JSON string\). For example, consider this model:
 
 ```javascript
 @Model()
@@ -165,7 +165,7 @@ const user = new User();
 const dto = user.toJson();
 ```
 
-The resulting `dto` \(data transfer object\) takes the following shape:
+In the above example, the resulting `dto` \(data transfer object\) would be:
 
 ```javascript
 {
@@ -176,92 +176,45 @@ The resulting `dto` \(data transfer object\) takes the following shape:
 
 This resulting object is not an instance of a User model. Rather, it is an instance of Object ready to be marshaled to a JSON string. NodeJS with Express converts this object to a JSON string when you send it back as your response body.
 
-#### options
+### Context
 
-`toJson` can be called with various options. 
-
-## Model`.toJsonString`
-
-Just like `toJson`, `toJsonString` will map your model to a resulting object that has the appropriate fields for your Json DTO. The difference is that it returns a proper Json string rather than a JavaScript object.
-
-## Mode`.fromJson`
-
-`fromJson` takes an object and maps it to a model. Like `toJson`, `fromJson` does not actually handle a Json string. Instead, it expects an object that has already been marshalled from Json but has yet to be transformed into a model. For example:
-
-```javascript
-/** note: you will never (rarely?) manually parse a JSON string like this since your middleware should parse incoming JSON before it gets to your handler */
-const json = JSON.parse(`
-    {
-        "fn":"John",
-        "ln":"Adams"
-    }
-`);
-
-@Model()
-export User extends SapiModelMixin() {
-    @Json('fn')
-    firstName: string;
-
-    @Json('ln')
-    lastName: string;
-}
-
-const user = User.fromJson(json);
-```
-
-The resulting `user` will be an object that is an instanceof a model with its fields properly mapped such that `firstName` has the value of `fn` \('John'\) and `lastName` has the value of `ln`.
-
-## Model`.fromJsonArray`
-
-Like `fromJson` except that it takes an array of objects that result in an array of models.
-
-## Model`.fromJsonToDb`
-
-You usually won't use this method. It takes an object with JSON fields and directly maps to a resulting object that has DB fields and is ready to be marshalled to MongoDB.
-
-For exampe:
+Model`.toJson()` optionally takes an `IContext` parameter or a context name as a string. For example:
 
 ```javascript
 @Model()
 export User extends SapiModelMixin() {
-    @Json('fName') @Db('fn')
-    firstName: string;
+    @Json()
+    @Json({field: 'fn', context: 'partner'})
+    firstName = 'John';
 
-    @Json('lName') @Db('ln')
-    lastName: string;
+    @Json()
+    @Json({field: 'ln', context: 'partner'})
+    lastName = 'Adams';
 }
 
-/** note: you will never actually manually parse a JSON string like this since your middleware should parse incoming JSON before it gets to your handler */
-const json = JSON.parse(`
-    {
-        "fn":"John",
-        "ln":"Adams"
-    }
-`);
-
-const dbObj = User.fromJsonToDb(json);
+const user1 = (new User()).toJson();
+const user2 = (new User()).toJson('partner');
 ```
 
-The resulting dbObj will be an object taking the following shape:
+In the above example, `user1` would result in:
 
 ```javascript
+{
+    firstName: 'John',
+    lastName: 'Adams'
+}
+```
+
+And `user2` would result in:
+
+```text
 {
     fn: 'John',
     ln: 'Adams'
 }
 ```
 
-It is not an instsance of the User model.
-
-## @Json\(\) Property Decorator
-
-One of the common tasks that a web server is responsible for is marshaling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to JSON. As seamless as it may be, this transformation still needs to take place.
-
-SakuraApi models have several methods to assist with marshalling to and from Json.
-
-## @Json\(\) with context
-
-In a simple world you have Json DTOs that have consistent field names. For example, assuming the following Json user object:
+Why is this helpful? In a simple world you would have JSON DTOs that have consistent field names. For example, assuming the following JSON user object:
 
 ```javascript
 // Json source 1
@@ -305,6 +258,87 @@ const backToJson2 = modelFromSource2.toJson('source2');
 The resulting `modelFromSource1` and `modelFromSource2` will both properly map their respective json fields to this same `User` model. Notice that the source 2 `@Json` field decorators provide a second parameter \(`'source2'`\) and the first `@Json` decorators do not. Notice also that the source 2 `fromJson` call also provides that second `'source2'` parameter. By default, `@Json` assumes a context named `'default'`. You do not have to provide this. The second `@Json` decorators add a second mapping for their fields in the context of `'source2'`. You can call your contexts whatever you want, but you should probably pick names that are descriptive, yet not annoying to type.
 
 You can declare an `@Json` operator with a `*` context to tell SakuraApi to apply that `@Json` decorator to any context.
+
+## Model`.toJsonString()`
+
+Just like `toJson`, `toJsonString` will map your model to a resulting object that has the appropriate fields for your JSON DTO. The difference is that it returns a proper JSON string rather than a JavaScript object.
+
+## Mode`.fromJson()`
+
+`fromJson` takes an object and maps it to a model. Like `toJson`, `fromJson` does not actually handle a JSON string. Instead, it expects an object that has already been marshaled from JSON but has yet to be transformed into a model. For example:
+
+```javascript
+/** note: you will never (rarely?) manually parse a JSON string like this since your middleware should parse incoming JSON before it gets to your handler */
+const json = JSON.parse(`
+    {
+        "fn":"John",
+        "ln":"Adams"
+    }
+`);
+
+@Model()
+export User extends SapiModelMixin() {
+    @Json('fn')
+    firstName: string;
+
+    @Json('ln')
+    lastName: string;
+}
+
+const user = User.fromJson(json);
+```
+
+The resulting `user` will be an object that is an instanceof a model with its fields properly mapped such that `firstName` has the value of `fn` \('John'\) and `lastName` has the value of `ln`.
+
+## Model`.fromJsonArray()`
+
+Like `fromJson` except that it takes an array of objects that result in an array of models.
+
+## Model`.fromJsonToDb()`
+
+You usually won't use this method. It takes an object with JSON fields and directly maps to a resulting object that has DB fields and is ready to be marshalled to MongoDB.
+
+For exampe:
+
+```javascript
+@Model()
+export User extends SapiModelMixin() {
+    @Json('fName') @Db('fn')
+    firstName: string;
+
+    @Json('lName') @Db('ln')
+    lastName: string;
+}
+
+/** note: you will never actually manually parse a JSON string like this since your middleware should parse incoming JSON before it gets to your handler */
+const json = JSON.parse(`
+    {
+        "fn":"John",
+        "ln":"Adams"
+    }
+`);
+
+const dbObj = User.fromJsonToDb(json);
+```
+
+The resulting dbObj will be an object taking the following shape:
+
+```javascript
+{
+    fn: 'John',
+    ln: 'Adams'
+}
+```
+
+It is not an instsance of the User model.
+
+## @Json\(\) Property Decorator
+
+One of the common tasks that a web server is responsible for is marshaling some internal object \(in this case a model\) to a DTO \(data transfer object\). A DTO is a representation of data that is appropriate for transport across a network intermediary like the internet. The nuance of transitioning from an internal object to a DTO is sometimes lost on us as JavaScript developers because of the seamlessness of transitioning to and from a JavaScript object to JSON. As seamless as it may be, this transformation still needs to take place.
+
+SakuraApi models have several methods to assist with marshalling to and from Json.
+
+
 
 ## @ToJson\(\) and @FromJson\(\) Method Decorators
 
