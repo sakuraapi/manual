@@ -149,7 +149,7 @@ export class User extends SapiModelMixin() {}
 
 ## Model`.toJson()`
 
-`toJson` maps a model's properties to a new Object with its models properties mapped to their JSON equivalents \(it doesn't actually return a JSON string\). For example, consider this model:
+`toJson` transforms a model's properties to a new Object with its properties mapped to their JSON equivalents \(it doesn't actually return a JSON string\). For example, consider this model:
 
 ```javascript
 @Model()
@@ -224,7 +224,7 @@ Why is this helpful? In a simple world you would have JSON DTOs that have consis
 }
 ```
 
-Were the world simple, all of your Json DTOs for a user would have this shape, everyone would agree on field names and so they would be consistent regardless of their source, and woodland creatures would just be cuddly with no instinctual desire to eat you. We do not live in such a world, however. Instead, we live in a fallen world where some services return the above Json, and other services return different field names for the same kind of information. There are also many woodland creates that would like to eat you in our world, but that's off topic. Contemplate the prior json from source one while considering this second json from source two:
+Were the world simple, all of your JSON DTOs for a user would have this shape, everyone would agree on field names and so they would be consistent regardless of their source, and woodland creatures would just be cuddly with no instinctual desire to eat you. We do not live in such a world, however. Instead, we live in a fallen world where some services return the above JSON, and other services return different field names for the same kind of information. There are also many woodland creates that would like to eat you in our world, but that's off topic. Consider the prior JSON from source 1 while considering this second JSON from source 2:
 
 ```javascript
 // Json source 2
@@ -255,7 +255,7 @@ const backToJson1 = modelFromSource1.toJson();
 const backToJson2 = modelFromSource2.toJson('source2');
 ```
 
-The resulting `modelFromSource1` and `modelFromSource2` will both properly map their respective json fields to this same `User` model. Notice that the source 2 `@Json` field decorators provide a second parameter \(`'source2'`\) and the first `@Json` decorators do not. Notice also that the source 2 `fromJson` call also provides that second `'source2'` parameter. By default, `@Json` assumes a context named `'default'`. You do not have to provide this. The second `@Json` decorators add a second mapping for their fields in the context of `'source2'`. You can call your contexts whatever you want, but you should probably pick names that are descriptive, yet not annoying to type.
+The resulting `modelFromSource1` and `modelFromSource2` will both properly map their respective json fields to this same `User` model. Notice that source 2 `@Json` field decorators provide a second parameter \(`'source2'`\) and the first `@Json` decorators do not. Notice also that the source 2 `fromJson` call also provides that second `'source2'` parameter. By default, `@Json` assumes a context named `'default'`. You do not have to provide this. The second `@Json` decorators add a second mapping for their fields in the context of `'source2'`. You can call your contexts whatever you want, but you should probably pick names that are descriptive, yet not annoying to type.
 
 You can declare an `@Json` operator with a `*` context to tell SakuraApi to apply that `@Json` decorator to any context.
 
@@ -290,6 +290,25 @@ const user = User.fromJson(json);
 
 The resulting `user` will be an object that is an instanceof a model with its fields properly mapped such that `firstName` has the value of `fn` \('John'\) and `lastName` has the value of `ln`.
 
+### Context
+
+As with `toJson` \(see above\), you can provide a context, thus allowing you to marshal `User` from multiple JSON sources. For example:
+
+```javascript
+@Model()
+export User extends SapiModelMixin() {
+    @Json('fn')
+    @Json('fName', 'source2')
+    firstName: string;
+
+    @Json('ln')
+    @Json('lName', 'source2')
+    lastName: string;
+}
+
+const user = User.fromJson({fName: 'John', lName: 'Doe'}, 'source2');
+```
+
 ## Model`.fromJsonArray()`
 
 Like `fromJson` except that it takes an array of objects that result in an array of models.
@@ -310,7 +329,8 @@ export User extends SapiModelMixin() {
     lastName: string;
 }
 
-/** note: you will never actually manually parse a JSON string like this since your middleware should parse incoming JSON before it gets to your handler */
+/** note: you will never actually manually parse a JSON string like this 
+since your middleware should parse incoming JSON before it gets to your handler */
 const json = JSON.parse(`
     {
         "fn":"John",
